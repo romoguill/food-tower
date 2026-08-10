@@ -1,7 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { Request } from 'express';
+import { UserRole } from '@food-tower/types';
 import { ROLES_KEY } from '../decorator/roles.decorator';
-import { JwtPayload, UserRole } from '@food-tower/types';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -17,9 +18,10 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const { user } = context
-      .switchToHttp()
-      .getRequest<Request & { user: JwtPayload }>();
+    const { user } = context.switchToHttp().getRequest<Request>();
+    if (!user) {
+      return false;
+    }
 
     return requiredRoles.includes(user.role as UserRole);
   }
