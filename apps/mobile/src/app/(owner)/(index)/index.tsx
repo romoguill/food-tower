@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { api } from "../../lib/axios";
+import { api } from "../../../lib/axios";
 import { useEffect } from "react";
 import { router } from "expo-router";
 
@@ -32,7 +32,7 @@ export default function OwnerHomeScreen() {
   useEffect(() => {
     if (isLoading) return;
     if (!restaurant) {
-      router.replace("/(owner)/create-restaurant");
+      router.replace("/(owner)/(index)/create-restaurant");
     }
   }, [restaurant, isLoading]);
 
@@ -54,13 +54,15 @@ export default function OwnerHomeScreen() {
         ]}
         onPress={() => toggleOpen}
       >
-        {restaurant?.isOpen ? "Open - tap to close" : "Closed - tap to open"}
+        <Text>
+          {restaurant?.isOpen ? "Open - tap to close" : "Closed - tap to open"}
+        </Text>
       </Pressable>
       <Pressable
         style={[styles.editButton]}
-        onPress={() => router.push("(owner)/edit-restaurant")}
+        onPress={() => router.push("/(owner)/(index)/edit-restaurant")}
       >
-        Edit Restaurant
+        <Text>Edit Restaurant</Text>
       </Pressable>
     </View>
   );
