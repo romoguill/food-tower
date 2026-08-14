@@ -17,7 +17,7 @@ export default function OwnerHomeScreen() {
   const { data: restaurant, isLoading } = useQuery<Restaurant | null>({
     queryKey: ["my-restaurant"],
     queryFn: () =>
-      api.get<Restaurant | null>("/restaurant/mine").then((res) => res.data),
+      api.get<Restaurant | null>("/restaurants/mine").then((res) => res.data),
   });
 
   const { mutate: toggleOpen } = useMutation({
@@ -54,7 +54,7 @@ export default function OwnerHomeScreen() {
         ]}
         onPress={() => toggleOpen}
       >
-        <Text>
+        <Text style={styles.toggleText}>
           {restaurant?.isOpen ? "Open - tap to close" : "Closed - tap to open"}
         </Text>
       </Pressable>
@@ -62,7 +62,7 @@ export default function OwnerHomeScreen() {
         style={[styles.editButton]}
         onPress={() => router.push("/(owner)/(index)/edit-restaurant")}
       >
-        <Text>Edit Restaurant</Text>
+        <Text style={styles.editButtonText}>Edit Restaurant</Text>
       </Pressable>
     </View>
   );

@@ -35,6 +35,7 @@ export interface Restaurant {
   cuisineType: string;
   isOpen: boolean;
   rating: string;
+  imageUrl: string;
   createdAt: Date;
   updatedAt: Date;
 }

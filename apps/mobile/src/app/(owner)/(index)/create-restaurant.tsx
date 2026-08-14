@@ -1,3 +1,4 @@
+import { openSettings } from "expo-linking";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -44,7 +45,7 @@ export default function CreateRestaurantScreen() {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["my-restaurant"] });
-      router.replace("/(owner)");
+      router.replace("/(owner)/(index)");
     },
     onError: (e) => {
       Alert.alert(
@@ -68,7 +69,21 @@ export default function CreateRestaurantScreen() {
 
       <Pressable
         style={styles.imagePicker}
-        onPress={() => openImagePicker({ source: "library" })}
+        onPress={() =>
+          openImagePicker({
+            source: "library",
+            onInsufficientPermissions: () => {
+              Alert.alert(
+                "No permissions set",
+                "You need to grant permissions in the settings",
+                [
+                  { text: "Dismiss" },
+                  { text: "Open Settings", onPress: openSettings },
+                ],
+              );
+            },
+          })
+        }
         disabled={isUploading}
       >
         {imageUrl ? (
